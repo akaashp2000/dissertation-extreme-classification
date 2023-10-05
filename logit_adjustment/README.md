@@ -13,7 +13,7 @@ The code has been tested with Python 3.7.2. The necessary libraries can be
 installed using pip with the following command:
 
 ```
-# from google-research/
+# from dissertation-extreme-classification/
 pip install -r logit_adjustment/requirements.txt
 ```
 
@@ -22,7 +22,7 @@ pip install -r logit_adjustment/requirements.txt
 The code may be tested on a dummy dataset using:
 
 ```
-# from google-research/
+# from dissertation-extreme-classification/
 python -m logit_adjustment.main --dataset=test --mode=baseline --train_batch_size=2 --test_batch_size=2
 ```
 
@@ -47,7 +47,7 @@ You can now run the code on the CIFAR-10 long-tail dataset using the commands
 below:
 
 ```
-# from google-research/
+# from dissertation-extreme-classification/
 
 # To produce baseline (ERM) results:
 python -m logit_adjustment.main --dataset=cifar10-lt --mode=baseline
@@ -65,7 +65,7 @@ messages to the console. Final test accuracy will also be visible in these
 log messages. You can monitor the training progress using Tensorboard:
 
 ```
-# from google-research/
+# from dissertation-extreme-classification/
 tensorboard --logdir=./logit_adjustment/log
 ```
 
