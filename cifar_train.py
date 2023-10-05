@@ -19,7 +19,7 @@ from tensorboardX import SummaryWriter
 from sklearn.metrics import confusion_matrix
 from utils import *
 from imbalance_cifar import IMBALANCECIFAR10, IMBALANCECIFAR100
-from losses import LDAMLoss, FocalLoss
+from losses import LDAMLoss, FocalLoss, LogAdjLoss
 
 model_names = sorted(
     name
@@ -303,9 +303,16 @@ def main_worker(gpu, ngpus_per_node, args):
             per_cls_weights = None
         elif args.train_rule == "Reweight":
             train_sampler = None
-            beta = 0.9999
+            beta = 0.9
             effective_num = 1.0 - np.power(beta, cls_num_list)
             per_cls_weights = (1.0 - beta) / np.array(effective_num)
+            per_cls_weights = (
+                per_cls_weights / np.sum(per_cls_weights) * len(cls_num_list)
+            )
+            per_cls_weights = torch.FloatTensor(per_cls_weights).cuda(args.gpu)
+        elif args.train_rule == "ClassWeight":
+            train_sampler = None
+            per_cls_weights = 1.0 / np.array(cls_num_list)
             per_cls_weights = (
                 per_cls_weights / np.sum(per_cls_weights) * len(cls_num_list)
             )
@@ -320,11 +327,24 @@ def main_worker(gpu, ngpus_per_node, args):
                 per_cls_weights / np.sum(per_cls_weights) * len(cls_num_list)
             )
             per_cls_weights = torch.FloatTensor(per_cls_weights).cuda(args.gpu)
+        elif args.train_rule == "DRW_ClassWeight":
+            train_sampler = None
+            idx = epoch // 160
+            per_cls_weights = (
+                1.0 / np.array(cls_num_list)
+                if idx == 1
+                else np.array([1] * len(cls_num_list))
+            )
+            per_cls_weights = torch.FloatTensor(per_cls_weights).cuda(args.gpu)
         else:
             warnings.warn("Sample rule is not listed")
 
         if args.loss_type == "CE":
             criterion = nn.CrossEntropyLoss(weight=per_cls_weights).cuda(args.gpu)
+        elif args.loss_type == "LogAdj":
+            criterion = LogAdjLoss(
+                cls_num_list=cls_num_list, weight=per_cls_weights
+            ).cuda(args.gpu)
         elif args.loss_type == "LDAM":
             criterion = LDAMLoss(
                 cls_num_list=cls_num_list, max_m=0.5, s=30, weight=per_cls_weights
