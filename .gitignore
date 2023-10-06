@@ -162,3 +162,7 @@ cython_debug/
 # logit_adjustment
 
 logit_adjustment/log
+
+# extreme classification
+
+extreme_classification/data
