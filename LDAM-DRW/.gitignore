@@ -158,5 +158,5 @@ TAGS
 *.rej
 
 # Logs and checkpoints from model
-log/
+# log/
 checkpoint/
