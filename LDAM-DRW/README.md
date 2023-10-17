@@ -4,22 +4,19 @@ _________________
 
 This is the official implementation of LDAM-DRW in the paper [Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss](https://arxiv.org/pdf/1906.07413.pdf) in PyTorch.
 
-### Dependency
+### Dependencies
 
-The code is built with following libraries:
-
-- [PyTorch](https://pytorch.org/) 1.2
-- [TensorboardX](https://github.com/lanpa/tensorboardX)
-- [scikit-learn](https://scikit-learn.org/stable/)
+See the main README.md (in the parent directory).
 
 ### Dataset
 
-- Imbalanced [CIFAR](https://www.cs.toronto.edu/~kriz/cifar.html). The original data will be downloaded and converted by `imbalancec_cifar.py`.
-- The paper also reports results on Tiny ImageNet and iNaturalist 2018. We will update the code for those datasets later.
+- Imbalanced [CIFAR](https://www.cs.toronto.edu/~kriz/cifar.html). The original data will be downloaded and converted by `imbalance_cifar.py` - though you do not need to run this directly (see below)
 
 ### Training 
 
-We provide several training examples with this repo:
+See the notebook ```ldam_drw.ipynb``` for commands to train on the imbalanced CIFAR 10 with different losses: specifically the sections (in Training (and evaluation) > Experiments and Results) Cao et. al, Cui et. al and Additional Experiments to run the training and evaluation.
+
+Below is an example:
 
 - To train the ERM baseline on long-tailed imbalance with ratio of 100
 
@@ -27,22 +24,18 @@ We provide several training examples with this repo:
 python cifar_train.py --gpu 0 --imb_type exp --imb_factor 0.01 --loss_type CE --train_rule None
 ```
 
-- To train the LDAM Loss along with DRW training on long-tailed imbalance with ratio of 100
+This will use the CIFAR 10 dataset in the ```data``` directory. If that directory does not exist, or the dataset has not been downloaded, these commands will create the directory and download it there.
 
-```bash
-python cifar_train.py --gpu 0 --imb_type exp --imb_factor 0.01 --loss_type LDAM --train_rule DRW
-```
+This will train the models and evaluate them on the imbalanced train and balanced test sets. It will log metrics like train or test loss and accuracy (overall and per-class) to the ```log``` directory with Tensorboard. You can view the results directly via Tensorboard, or see below.
 
+### Results
 
-### Reference
+See the Read the results section in the notebook.
 
-If you find our paper and repo useful, please cite as
+Here we reproduce Table 2 and Figures 7, 8 and 9.
 
-```
-@inproceedings{cao2019learning,
-  title={Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss},
-  author={Cao, Kaidi and Wei, Colin and Gaidon, Adrien and Arechiga, Nikos and Ma, Tengyu},
-  booktitle={Advances in Neural Information Processing Systems},
-  year={2019}
-}
-```
+Table 2: the final epoch and best (across epochs) accuracies on the test set. We display a pandas DataFrame with these in.
+
+Figures 7 and 8: Altair bar charts of per-class test accuracies (they are interactive so select relevant losses to match the Figures by SHIFT+click on the legend).
+
+Figure 9: Altair line chart of train accuracy over time (epoch). It is interactive so select relevant losses to match the Figure by SHIFT click on the legend.
