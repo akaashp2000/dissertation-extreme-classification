@@ -121,6 +121,9 @@ parser.add_argument(
     "--seed", default=None, type=int, help="seed for initializing training. "
 )
 parser.add_argument("--gpu", default=None, type=int, help="GPU id to use.")
+parser.add_argument(
+    "--beta", default=None, type=float, help="beta for effective class proportions"
+)
 parser.add_argument("--root_log", type=str, default="log")
 parser.add_argument("--root_model", type=str, default="checkpoint")
 best_acc1 = 0
@@ -128,17 +131,21 @@ best_acc1 = 0
 
 def main():
     args = parser.parse_args()
-    args.store_name = "_".join(
-        [
-            args.dataset,
-            args.arch,
-            args.loss_type,
-            args.train_rule,
-            args.imb_type,
-            str(args.imb_factor),
-            args.exp_str,
-        ]
-    )
+    _store_name = [
+        args.dataset,
+        args.arch,
+        args.loss_type,
+        args.train_rule,
+        args.imb_type,
+        str(args.imb_factor),
+        args.exp_str,
+    ]
+
+    if args.beta is not None:
+        _store_name.insert(-1, str(args.beta))
+
+    args.store_name = "_".join(_store_name)
+
     prepare_folders(args)
     if args.seed is not None:
         random.seed(args.seed)
@@ -303,7 +310,7 @@ def main_worker(gpu, ngpus_per_node, args):
             per_cls_weights = None
         elif args.train_rule == "Reweight":
             train_sampler = None
-            beta = 0.9
+            beta = args.beta
             effective_num = 1.0 - np.power(beta, cls_num_list)
             per_cls_weights = (1.0 - beta) / np.array(effective_num)
             per_cls_weights = (
@@ -320,7 +327,7 @@ def main_worker(gpu, ngpus_per_node, args):
         elif args.train_rule == "DRW":
             train_sampler = None
             idx = epoch // 160
-            betas = [0, 0.9999]
+            betas = [0, args.beta]
             effective_num = 1.0 - np.power(betas[idx], cls_num_list)
             per_cls_weights = (1.0 - betas[idx]) / np.array(effective_num)
             per_cls_weights = (
