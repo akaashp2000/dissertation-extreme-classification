@@ -131,18 +131,21 @@ best_acc1 = 0
 
 def main():
     args = parser.parse_args()
-    args.store_name = "_".join(
-        [
-            args.dataset,
-            args.arch,
-            args.loss_type,
-            args.train_rule,
-            args.imb_type,
-            str(args.imb_factor),
-            args.exp_str,
-        ]
-        + ([str(args.beta)] if args.beta is not None else [])
-    )
+    _store_name = [
+        args.dataset,
+        args.arch,
+        args.loss_type,
+        args.train_rule,
+        args.imb_type,
+        str(args.imb_factor),
+        args.exp_str,
+    ]
+
+    if args.beta is not None:
+        _store_name.insert(-1, str(args.beta))
+
+    args.store_name = "_".join(_store_name)
+
     prepare_folders(args)
     if args.seed is not None:
         random.seed(args.seed)
