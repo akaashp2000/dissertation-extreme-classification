@@ -162,6 +162,7 @@ cython_debug/
 # logit_adjustment
 
 logit_adjustment/log
+logit_adjustment/data/cifar*.tfrecord
 
 # extreme classification
 
