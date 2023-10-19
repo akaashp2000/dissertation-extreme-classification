@@ -20,6 +20,16 @@ from typing import List, Tuple
 import dataclasses
 import tensorflow as tf
 
+import os
+import requests
+
+TFRECORD_URLS = {
+    "train10": "http://storage.googleapis.com/gresearch/logit_adjustment/cifar10-lt_train.tfrecord",
+    "test10": "http://storage.googleapis.com/gresearch/logit_adjustment/cifar10_test.tfrecord",
+    "train100": "http://storage.googleapis.com/gresearch/logit_adjustment/cifar100-lt_train.tfrecord",
+    "test100": "http://storage.googleapis.com/gresearch/logit_adjustment/cifar100_test.tfrecord",
+}
+
 
 def build_loss_fn(use_la_loss, base_probs, tau=1.0):
     """Builds the loss function to be used for training.
@@ -189,3 +199,62 @@ def create_tf_dataset(dataset, data_home, batch_size, training):
         .map(lambda record: _parse(record, training))
         .prefetch(tf.data.experimental.AUTOTUNE)
     )
+
+
+def download_tfrecord(*args, data_dir: str = "./data"):
+    """
+    Download TFRecord files from a predefined dictionary of URLs to a specified data directory.
+
+    Args:
+        *args: Variable number of strings representing the keys for TFRecord URLs.
+        data_dir (str, optional): The directory where TFRecord files will be downloaded. Defaults to "./data".
+
+    Description:
+    This function allows you to download TFRecord files specified by their keys from a predefined dictionary of URLs. It checks if the files already exist in the data directory and prompts the user for confirmation before overwriting if necessary. The downloaded files are saved in the specified data directory.
+
+    Parameters:
+        *args (str): One or more keys corresponding to TFRecord URLs in the predefined dictionary.
+        data_dir (str): The directory where the TFRecord files will be downloaded.
+
+    Predefined Dictionary:
+        The function uses a predefined dictionary, TFRECORD_URLS, which should be defined in the script. It maps keys to TFRecord URLs.
+
+    Example:
+        To download 'train-10' and 'test-10' TFRecord files to the 'data' directory:
+        download_tfrecord("train10", "test10", data_dir="data")
+
+    Note:
+        Make sure to define the TFRECORD_URLS dictionary with the appropriate URL mappings in your script.
+    """
+    # Extract the file name from the URL
+    args = [arg for arg in args if arg in TFRECORD_URLS.keys()]
+
+    for arg in args:
+        file_name = os.path.join(data_dir, TFRECORD_URLS[arg].split("/")[-1])
+
+        write = "y"
+
+        if os.path.exists(file_name):
+            # The file already exists; ask for confirmation
+            write = (
+                input(
+                    f"The file '{file_name}' already exists. Do you want to overwrite it? (y/n): "
+                )
+                .strip()
+                .lower()
+            )
+
+        if write == "y":
+            try:
+                # Download the TFRecord file
+                response = requests.get(TFRECORD_URLS[arg])
+                response.raise_for_status()
+
+                with open(file_name, "wb") as tfrecord_file:
+                    tfrecord_file.write(response.content)
+                print(f"Downloaded '{file_name}' to '{data_dir}'")
+
+            except Exception as e:
+                print(f"An error occurred while downloading the TFRecord file: {e}")
+        else:
+            print(f"Skipped '{file_name}'")
