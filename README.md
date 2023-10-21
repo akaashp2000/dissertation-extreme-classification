@@ -10,6 +10,6 @@ Specifically it contains:
     * a clone of the code for ["Long-tail learning via logit adjustment" (Menon et. al)](https://arxiv.org/abs/2007.07314)
     * a clone of the code for ["Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss" (Cao et. al)](https://arxiv.org/abs/1906.07413)
 * notebook for additional plots
-* (TODO) a pdf copy of the dissertation
+* a pdf copy of the dissertation
 
 (TODO) Add set up instructions (poetry/setup.py)
