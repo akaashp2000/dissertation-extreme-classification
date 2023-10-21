@@ -11,5 +11,6 @@ Specifically it contains:
     * a clone of the code for ["Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss" (Cao et. al)](https://arxiv.org/abs/1906.07413)
 * notebook for additional plots
 * a pdf copy of the dissertation
+* requirements.txt for setup of virtualenv
 
-(TODO) Add set up instructions (poetry/setup.py)
+TODO: Tidy all READMEs
