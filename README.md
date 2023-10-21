@@ -9,7 +9,9 @@ Specifically it contains:
 * modified code for CIFAR-10 experiments
     * a clone of the code for ["Long-tail learning via logit adjustment" (Menon et. al)](https://arxiv.org/abs/2007.07314)
     * a clone of the code for ["Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss" (Cao et. al)](https://arxiv.org/abs/1906.07413)
+        * not currently working for CPU. Only works for GPU.
 * notebook for additional plots
 * a pdf copy of the dissertation
+* requirements.txt file to set up virtualenv
 
-(TODO) Add set up instructions (poetry/setup.py)
+(TODO) Tidy READMEs
