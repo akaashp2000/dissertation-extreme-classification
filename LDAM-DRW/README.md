@@ -1,16 +1,18 @@
-## Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss 
+# Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss 
 Kaidi Cao, Colin Wei, Adrien Gaidon, Nikos Arechiga, Tengyu Ma
 _________________
 
 This is the official implementation of LDAM-DRW in the paper [Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss](https://arxiv.org/pdf/1906.07413.pdf) in PyTorch.
 
-### Dependencies
+Here we have modified the [original code](https://github.com/kaidic/LDAM-DRW) and added a notebook to get the results (Table 2 and Figures 7, 8 and 9) in the dissertation.
 
-See the main README.md (in the parent directory).
+Note: this only currently works with a GPU.
+
+## Running the code
 
 ### Dataset
 
-- Imbalanced [CIFAR](https://www.cs.toronto.edu/~kriz/cifar.html). The original data will be downloaded and converted by `imbalance_cifar.py` - though you do not need to run this directly (see below)
+- Imbalanced [CIFAR](https://www.cs.toronto.edu/~kriz/cifar.html). The original data will be downloaded and converted by `imbalance_cifar.py` - though you do not need to run this directly.
 
 ### Training 
 
@@ -26,9 +28,9 @@ python cifar_train.py --gpu 0 --imb_type exp --imb_factor 0.01 --loss_type CE --
 
 This will use the CIFAR 10 dataset in the ```data``` directory. If that directory does not exist, or the dataset has not been downloaded, these commands will create the directory and download it there.
 
-This will train the models and evaluate them on the imbalanced train and balanced test sets. It will log metrics like train or test loss and accuracy (overall and per-class) to the ```log``` directory with Tensorboard. You can view the results directly via Tensorboard, or see below.
+This will train the models and evaluate them on the imbalanced train and balanced test sets. It will log metrics like train or test loss and accuracy (overall and per-class) to the ```log``` directory with Tensorboard. You can view the results directly via Tensorboard, or the notebook will reproduce the plots below.
 
-### Results
+## Results
 
 See the Read the results section in the notebook.
 
