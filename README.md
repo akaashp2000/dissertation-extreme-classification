@@ -23,11 +23,9 @@ Specifically it contains:
 git clone https://github.com/akaashp2000/dissertation-extreme-classification
 ```
 
-2. Within the ```dissertation-extreme-classification``` directory, create a virtual environment and install the requirements.
+2. Within the ```dissertation-extreme-classification``` directory, (optionally within a virtual environment) install the requirements, with
 
 ```bash
-cd dissertation-extreme-classification
-virtualenv venv
 pip install -r requirements.txt
 ```
 
