@@ -33,7 +33,7 @@ pip install -r requirements.txt
 
 The pdf file is available in the `dissertation` folder, called `thesismain.pdf`. 
 
-The LaTeX source files can be found in the submodule `dissertation-extreme-classification-latex`, whose repo is [here](https://github.com/akaashp2000/dissertation-extreme-classification). The source files are currently private, so will require permission to view.
+The LaTeX source files can be found in the submodule `dissertation-extreme-classification-latex`, whose repo is [here](https://github.com/akaashp2000/dissertation-extreme-classification-latex/). The source files are currently private, so will require permission to view.
 
 ## Synthetic data experiments
 
