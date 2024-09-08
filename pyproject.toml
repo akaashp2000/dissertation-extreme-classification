@@ -1,0 +1,20 @@
+[project]
+name = "dissertation-extreme-classification"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "altair",
+    "ipykernel",
+    "matplotlib",
+    "notebook",
+    "numpy",
+    "pandas",
+    "requests",
+    "scikit_learn",
+    "tensorboard",
+    "tensorboardX",
+    "tensorflow",
+    "torch",
+    "torchvision",
+    "torch-tb-profiler>=0.2.0"
+]
