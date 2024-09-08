@@ -17,16 +17,17 @@ Specifically it contains:
 
 ## Set up
 
-1. Clone the repo.
-
+1. Get the required tools:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh # install uv if you don't have it already
+```
+2. Clone the repo.
 ```bash
 git clone https://github.com/akaashp2000/dissertation-extreme-classification
 ```
-
-2. Within the ```dissertation-extreme-classification``` directory, (optionally within a virtual environment) install the requirements, with
-
+3. From the ```dissertation-extreme-classification``` directory, create a virtual environment with the dependencies.
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 ## Dissertation
