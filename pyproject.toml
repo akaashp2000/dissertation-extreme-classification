@@ -6,6 +6,7 @@ dependencies = [
     "altair",
     "ipykernel",
     "matplotlib",
+    "notebook",
     "numpy",
     "pandas",
     "requests",
